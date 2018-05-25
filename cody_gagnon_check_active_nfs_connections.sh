@@ -10,12 +10,11 @@ if [ $number_of_connections -gt 100 ]; then
     echo "STATUS:CRITICAL"
     exit 2;
 
-if [ $number_of_connections -gt 50 ]; then
+elif [ $number_of_connections -gt 50 ]; then
     echo "STATUS:WARNING"
     exit 1;
 
-
-if [ $number_of_connections -lt 50 ]; then
+elif [ $number_of_connections -lt 50 ]; then
     echo "STATUS:OK"
     exit 0;
 
@@ -24,6 +23,3 @@ else
    echo "STATUS:UNKNOWN"
    exit 3;
 fi
-
-# v Can be used to enable the Nagios check, put on both server and client.
-#command[nti-sanity]=/usr/lib64/nagios/plugins/nti-sanity.sh
