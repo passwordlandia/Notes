@@ -37,6 +37,3 @@ else
    echo "STATUS:UNKNOWN"
    exit 3;
 fi
-
-# v Can be used to enable the Nagios check, put on both server and client.
-#command[nti-sanity]=/usr/lib64/nagios/plugins/nti-sanity.sh
