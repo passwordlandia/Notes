@@ -1,0 +1,27 @@
+#!/bin/bash
+#WIP.
+
+#Check: systemctl status nscd | grep "revealing line" | awk { print $<something> } into variable.
+#Second line is a boolean check: if variable means it's up, then new variable $nscd is set to active. If not, it's set to inactive.
+
+status="0"                                  # Change the status to test different alert states
+
+if [ $nscd == "active" ]; then
+    echo "STATUS:OK"
+    exit 0;
+    
+  elif [ $nscd == "inactive" ]; then
+    echo "STATUS:CRITICAL"
+    exit 2;
+    
+  elif [ $status == "1" ] ; then
+    echo "STATUS:WARNING"
+    exit 1;
+    
+else
+   echo "STATUS:UNKNOWN"
+   exit 3;
+fi
+
+# v Can be used to enable the Nagios check, put on both server and client.
+#command[nti-sanity]=/usr/lib64/nagios/plugins/nti-sanity.sh
