@@ -1,0 +1,197 @@
+8.19 "Special" Characters and Operators
+Before you learn about regular expressions ( 26.1 ) , you should understand how quoting ( 8.14 ) works in UNIX.
+
+Regular expressions use metacharacters. The shells also have metacharacters. Metacharacters are simply characters that have a special meaning. The problem occurs when you want to use a regular expression in a shell script. Will the shell do something special with the character? Or will it be passed unchanged to the program? The $ character is a good example. It could be the beginning of a variable name or it could bepart of a regular expression . ( 26.2 ) If you need a regular expression, you must know if any of the characters of the expression are metacharacters, and must know the right way to quote that character so that it is passed to the program without being modified by the shell.
+
+Table 8.3 is a table of special characters and operators in the C shell ( csh ) and Bourne shell ( sh ). The chart also includes several combinations of characters just to be complete. As in other parts of this book, the sh entries apply to ksh and bash ; the csh entries apply to tcsh .
+
+Table 8.3: List of Special Characters and Their Meanings
+Character	Where	Meaning	Article
+ESC	csh	Filename completion.	9.8
+RETURN	csh, sh	Execute command.	41.2
+space	csh, sh	Argument separator.	8.5
+TAB	csh, sh	Argument separator.	8.5
+TAB	bash	Filename completion.	9.8
+#	csh, sh	Start a comment.	44.2
+`	csh, sh	Command substitution (backquotes).	9.16
+"	sh	Weak quotes.	8.14
+"	csh	Weak quotes.	
+8.15 , 8.14
+
+'	sh	Strong quotes.	8.14
+'	csh	Strong quotes.	
+8.15 , 8.14 See \.
+
+\	sh	Single-character quote.	8.14
+\	csh	Single-character quote.	
+8.15 , 8.14
+
+$ var	csh, sh	Variable.	
+6.1 , 6.8
+
+${ var }	csh, sh	Same as $ var .	6.8
+$ var : mod	csh	Edit var with modifier mod	9.6
+${ var - default }	sh	
+If var not set, use default .
+
+45.12
+${ var = default }	sh	
+If var not set, set it to default and use that value.
+
+45.12
+${ var + instead }	sh	
+If var set, use instead . Otherwise, null string.
+
+45.12
+${ var ? message }	sh	
+If var not set, print message (else default). If var set, use its value.
+
+45.12
+${ var # pat }	ksh, bash	
+Value of var with smallest pat deleted from start.
+
+9.7
+${ var ## pat }	ksh, bash	
+Value of var with largest pat deleted from start.
+
+9.7
+${ var % pat }	ksh, bash	
+Value of var with smallest pat deleted from end.
+
+9.7
+${ var %% pat }	ksh, bash	
+Value of var with largest pat deleted from end.
+
+9.7
+|	csh, sh	Pipe standard output.	
+1.4 , 13.1
+
+|&	csh	Pipe standard output and standard error.	13.5
+^	sh only	Pipe character (obsolete).	
+^	csh, bash	Edit previous command line.	11.5
+&	csh, sh	Run program in background.	
+1.27 , 1.28
+
+?	csh, sh	Match one character.	
+1.16 , 15.2
+
+*	csh, sh	Match zero or more characters.	
+1.16 , 15.2
+
+;	csh, sh	Command separator.	8.5
+;;	sh	End of case statement.	44.5
+~	csh, ksh, bash	Home directory.	14.11
+~ user	csh, ksh, bash	Home directory of user .	14.11
+!	csh, bash	Command history.	11.2
+-	Programs	Start of optional argument.	8.5
+-	Programs	
+Read standard input. (Only certain programs.)
+
+13.13
+$#	csh, sh	Number of arguments to script.	44.15
+"$@"	sh	Original arguments to script.	44.15
+$*	csh, sh	Arguments to script.	44.15
+$-	sh	Flags set in shell.	2.11
+$?	sh	Status of previous command.	44.7
+$$	csh, sh	Process identification number.	8.14
+$!	sh	
+Process identification number of last background job.
+
+7.12
+$<	csh	Read input from terminal.	9.11
+cmd1 && cmd2	csh, sh	
+Execute cmd2 if cmd1 succeeds.
+
+44.9
+cmd1 || cmd2	csh, sh	
+Execute cmd2 if cmd1 fails.
+
+44.9
+$(..)	ksh, bash	Command substitution.	
+45.31 , 9.16
+
+((..))	ksh, bash	Arithmetic evaluation.	
+\. file	sh	
+Execute commands from file in this shell.
+
+44.23
+:	sh	Evaluate arguments, return true.	45.9
+:	sh	Separate values in paths.	
+6.4 , 14.5 , 21.8
+
+:	csh	Variable modifier.	9.6
+[]	csh, sh	Match range of characters.	
+1.16 , 15.2
+
+[]	sh	Test.	44.20
+% job	csh, ksh, bash	Identify job number.	12.1
+( cmd ; cmd )	csh, sh	Run cmd ; cmd in a subshell.	13.7
+{}	csh, bash	In-line expansions.	
+9.5
+
+{ cmd ; cmd ; }	sh	
+Like ( cmd ; cmd ) without a subshell.
+
+13.8
+> file	csh, sh	Redirect standard output.	13.1
+>> file	csh, sh	Append standard output.	13.1
+< file	csh, sh	Redirect standard input.	13.1
+<< word	csh, sh	
+Read until word , do command and variable substitution.
+
+8.18 , 9.14
+
+<<\ word	csh, sh	
+Read until word , no substitution.
+
+8.18
+<<- word	sh	
+Read until word , ignoring leading TABs.
+
+8.18
+>>!  file	csh	
+Append to file , even if noclobber set and file doesn't exist.
+
+13.6
+>!  file	csh	
+Output to file , even if noclobber set and file exists.
+
+13.6
+>|  file	ksh, bash	
+Output to file , even if noclobber set and file exists.
+
+13.6
+>& file	csh	
+Redirect standard output and standard error to file .
+
+13.5
+m > file	sh	
+Redirect output file descriptor m to file .
+
+45.21
+m >> file	sh	
+Append output file descriptor m to file .
+
+m < file	sh	
+Redirect input file descriptor m from file .
+
+<& m	sh	
+Take standard input from file descriptor m .
+
+<&-	sh	Close standard input.	45.10
+>& m	sh	
+Use file descriptor m as standard output.
+
+45.21
+>&-	sh	Close standard output.	45.21
+m <& n	sh	
+Connect input file descriptor n to file descriptor m .
+
+45.22
+m <&-	sh	Close input file descriptor m .	45.21
+n >& m	sh	
+Connect output file descriptor n to file descriptor m .
+
+45.21
+m >&-	sh	Close output file descriptor m .	45.21
+- BB , JP
