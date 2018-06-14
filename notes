@@ -1,0 +1,6 @@
+[paulierev1775@ldap-final-server ~]$ sudo su
+[root@ldap-final-server paulierev1775]# cd /root
+[root@ldap-final-server ~]# ls
+ldap_admin_pass
+[root@ldap-final-server ~]# cat ldap_admin_pass
+KyaFn03n[root@ldap-final-server ~]# 
